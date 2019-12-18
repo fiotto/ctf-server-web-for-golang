@@ -13,5 +13,5 @@ $ docker-compose up -d
 データベースの確認
 ```
 $ docker container exec -it mysql /bin/sh
-$ mysql -u [ユーザー名] -p
+$ psql -U [ユーザー名]
 ```

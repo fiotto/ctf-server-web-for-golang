@@ -7,7 +7,7 @@ import (
   "net/http"
   "text/template"
   "database/sql"
-  _ "github.com/go-sql-driver/mysql"
+  _ "github.com/lib/pq"
 )
 
 type Page struct {
@@ -26,7 +26,8 @@ type User struct {
 const PORT = 8080
 
 func createHtml(w http.ResponseWriter, r *http.Request) error {
-  db, err := sql.Open("mysql", "root:password@tcp(mysql:3306)/ctf_db")
+  db, err := sql.Open("postgres", "host=postgres port=5432 user=postgres password=password dbname=ctf_db sslmode=disable")
+
   if err != nil {
     panic(err.Error())
   }
@@ -67,6 +68,7 @@ func createHtml(w http.ResponseWriter, r *http.Request) error {
 func viewHandler(w http.ResponseWriter, r *http.Request) {
   err := createHtml(w, r)
   if( err != nil ){
+    fmt.Fprint(os.Stderr, err)
     fmt.Fprintf(w, err.Error())
   }
 }

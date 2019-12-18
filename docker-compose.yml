@@ -12,18 +12,15 @@ services:
       - "8080:8080"
     networks:
       - ctf-network
-  db1:
-    container_name: mysql
+  postgres:
+    container_name: postgres
     build:
-      context: ./mysql
+      context: ./postgres
       dockerfile: Dockerfile
-    environment:
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
-      - MYSQL_ROOT_PASSWORD=password
     volumes:
-      - ./mysql/mysql_conf:/etc/mysql/conf.d
-      - ./mysql/initdb.d:/docker-entrypoint-initdb.d      
+      - ./postgres/initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_PASSWORD: password
     networks:
       - ctf-network
 networks:
