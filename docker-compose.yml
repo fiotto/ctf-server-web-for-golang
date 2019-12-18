@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+  app-go:
+    container_name: app-go
+    build:
+      context: ./go
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+      - ${PWD}/go/src:/app
+    ports:
+      - "8080:8080"
+    networks:
+      - ctf-network
+  db1:
+    container_name: mysql
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    environment:
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - ./mysql/mysql_conf:/etc/mysql/conf.d
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d      
+    networks:
+      - ctf-network
+networks:
+  ctf-network:
